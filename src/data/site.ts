@@ -19,9 +19,8 @@ export const site = {
     "Hi, I'm Dr. Nikhil Reddy, a [specialty] physician in [City]. [Two or three sentences in your own voice: why you chose medicine, what you focus on, and what patients can expect when they see you.]",
   email: "[your-email@example.com]",
   phone: "[+91 00000 00000]",
-  // Photos: put image files in the "public" folder and set their names here,
-  // e.g. "/photo.png". A photo with a plain or transparent background works best for the hero.
-  heroPhoto: "",
+  // Hero photo: replace src/assets/hero.png (transparent background, waist-up).
+  // Approach photo: put an image in the "public" folder and set its name here, e.g. "/at-work.jpg".
   approachPhoto: "",
   // Free form service: create a form at https://formspree.io and paste its ID here.
   formspreeId: "",

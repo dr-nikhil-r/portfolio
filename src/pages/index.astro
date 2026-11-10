@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
+import heroImg from "../assets/hero.png";
 import {
   site, approach, expertise, experience, education, credentials, research, practices,
 } from "../data/site";
@@ -54,9 +56,19 @@ const nav = [
             </div>
           </div>
           <div class="hero-photo">
-            {site.heroPhoto
-              ? <img src={site.heroPhoto} alt={`Portrait of ${site.name}`} />
-              : <div class="photo-placeholder"><strong>{site.initials}</strong>Your photo here</div>}
+            <div class="portrait">
+            <span class="halo" aria-hidden="true"></span>
+            <Image
+              src={heroImg}
+              alt={`Portrait of ${site.name}`}
+              widths={[480, 720, 920]}
+              sizes="(max-width: 760px) 90vw, 460px"
+              format="webp"
+              quality={95}
+              loading="eager"
+              fetchpriority="high"
+            />
+            </div>
           </div>
         </div>
         <div class="hero-meta">

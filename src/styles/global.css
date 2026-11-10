@@ -118,7 +118,23 @@ section { padding: 110px 0; }
 .hero-line { font-family: var(--display); font-style: italic; color: var(--muted); max-width: 440px; font-size: 1rem; margin-bottom: 36px; }
 .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
 .hero-photo { position: relative; align-self: end; height: 100%; display: flex; align-items: flex-end; justify-content: center; }
-.hero-photo img { max-height: 760px; width: auto; object-fit: contain; object-position: bottom; }
+.portrait { position: relative; width: 100%; max-width: 540px; display: flex; justify-content: center; }
+.hero-photo img {
+  position: relative; z-index: 1; width: 100%; max-width: 540px; height: auto; max-height: 600px;
+  object-fit: contain; object-position: bottom;
+  filter: drop-shadow(0 20px 40px rgba(20, 28, 43, 0.18));
+}
+/* Soft circle behind the portrait so it sits into the page in both themes */
+.hero-photo .halo {
+  position: absolute; z-index: 0; left: 50%; top: -6%; transform: translateX(-50%);
+  width: 78%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--gold) 26%, transparent), color-mix(in srgb, var(--gold) 8%, transparent) 60%, transparent 72%);
+}
+.hero-photo .halo::after {
+  content: ""; position: absolute; inset: -18px; border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+}
+:root[data-theme="dark"] .hero-photo img { filter: drop-shadow(0 0 1px rgba(242, 238, 227, 0.25)) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5)); }
 .photo-placeholder {
   width: 100%; max-width: 440px; aspect-ratio: 4 / 5; background: var(--bg-alt); border: 1px dashed var(--line);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--muted);
