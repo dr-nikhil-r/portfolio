@@ -16,7 +16,7 @@ export const site = {
     "Helping patients understand their health and feel confident about their care, through clear advice and evidence-based treatment.",
   aboutHeading: "Caring with clarity and compassion",
   about:
-    "Hi, I'm Dr. Nikhil Reddy, a [specialty] physician in [City]. [Two or three sentences in your own voice: why you chose medicine, what you focus on, and what patients can expect when they see you.]",
+    "Hi, I'm Dr. Nikhil Reddy. I was drawn to medicine by a simple belief: being unwell is frightening, and a good doctor can make it a little less so. I try to listen before I speak, explain things honestly and in plain words, and remember that every patient has a life, a family and worries that go far beyond the hospital bed. As I begin my postgraduate training, I'm still learning every day, and deeply grateful to the patients and teachers who are shaping the doctor I hope to become.",
   email: "[your-email@example.com]",
   phone: "[+91 00000 00000]",
   // Hero photo: replace src/assets/hero.png (transparent background, waist-up).
@@ -24,7 +24,13 @@ export const site = {
   approachPhoto: "",
   // Free form service: create a form at https://formspree.io and paste its ID here.
   formspreeId: "",
-  bookingUrl: "#contact",
+  contactUrl: "#contact",
+  // Appointment status shown in the hero and contact section.
+  // Set acceptingAppointments to true (and update the text) when you start seeing patients again.
+  acceptingAppointments: false,
+  statusShort: "Not taking appointments · Beginning MD/MS training",
+  statusLong:
+    "I'm not seeing patients or taking appointments at the moment, as I'm beginning my postgraduate (MD/MS) training. For professional, academic or collaboration enquiries, I'd be glad to hear from you.",
   socials: [
     { label: "LinkedIn", url: "#" },
     { label: "Google Scholar", url: "#" },

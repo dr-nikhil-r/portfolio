@@ -137,7 +137,19 @@ section { padding: 110px 0; }
   width: 100%; height: 100%; object-fit: contain; object-position: bottom;
   filter: drop-shadow(0 30px 60px rgba(20, 28, 43, 0.22));
 }
-:root[data-theme="dark"] .hero-portrait img { filter: drop-shadow(0 0 1px rgba(242, 238, 227, 0.3)) drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6)); }
+:root[data-theme="dark"] .hero-portrait img { filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.55)); }
+
+/* Light/dark versions of the portrait */
+.hero-portrait .portrait-dark { display: none; }
+:root[data-theme="dark"] .hero-portrait .portrait-light { display: none; }
+:root[data-theme="dark"] .hero-portrait .portrait-dark { display: block; }
+
+/* Dark mode: soft light behind the head so the dark blazer separates from the page */
+:root[data-theme="dark"] .hero-portrait::before {
+  content: ""; position: absolute; z-index: -1; left: 50%; top: 4%; transform: translateX(-50%);
+  width: 95%; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle at 50% 42%, rgba(217, 180, 94, 0.10), rgba(120, 140, 180, 0.06) 45%, transparent 68%);
+}
 .hero-intro { position: absolute; z-index: 2; left: 24px; bottom: 48px; max-width: 390px; }
 .hero-intro .eyebrow { margin-bottom: 16px; }
 .hero-line { font-family: var(--display); font-style: italic; color: var(--muted); font-size: 1rem; line-height: 1.6; margin-bottom: 28px; }
@@ -203,10 +215,27 @@ section { padding: 110px 0; }
 @media (min-width: 761px) and (max-height: 800px) {
   .hero-intro { bottom: 30px; }
   .hero-intro .eyebrow { margin-bottom: 10px; }
+  .status-pill { margin-bottom: 10px; }
   .hero-line { font-size: 0.9rem; line-height: 1.5; margin-bottom: 18px; }
   .hero-facts { bottom: 30px; gap: 10px; }
   .hero-facts dd { font-size: 1.1rem; }
 }
+
+/* Appointment status */
+.status-pill {
+  display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px; padding: 6px 12px;
+  border: 1px solid var(--line); background: color-mix(in srgb, var(--card) 70%, transparent);
+  font-size: 0.78rem; color: var(--text); letter-spacing: 0.01em; white-space: nowrap;
+}
+.status-pill .dot, .status-note .dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 22%, transparent);
+}
+.status-note {
+  display: flex; gap: 12px; align-items: baseline; max-width: 720px; margin: 24px 0 0; padding: 16px 20px;
+  border-left: 2px solid var(--gold); background: var(--card); color: var(--text); font-size: 0.98rem;
+}
+.status-note .dot { margin-top: 0.45em; align-self: flex-start; }
 
 /* Smaller laptops: keep corners clear of the portrait */
 @media (max-width: 1280px) {
@@ -306,6 +335,7 @@ footer { padding: 56px 0 40px; border-top: 1px solid var(--line); }
   .nav a { padding: 16px 20px; border-top: 1px solid var(--line); color: var(--ink); }
   .menu-btn { display: inline-flex; }
   .hero-stage { height: auto; display: flex; flex-direction: column; padding: 28px 20px 0; }
+  .status-pill { white-space: normal; }
   .hero-ecg { display: none; }
   .hero-name { position: static; font-size: clamp(3.6rem, 19vw, 6rem); line-height: 0.86; }
   .hero-name .l2 { text-align: left; }
