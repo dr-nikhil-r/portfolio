@@ -11,6 +11,9 @@ const formAction = site.formspreeId
   : `mailto:${site.email}`;
 const year = new Date().getFullYear();
 const pad = (n: number) => String(n + 1).padStart(2, "0");
+// Split a string into letters for the staggered hero animation.
+const letters = (text: string, offset: number) =>
+  [...text].map((ch, i) => ({ ch: ch === " " ? "\u00A0" : ch, i: i + offset }));
 const nav = [
   ["Home", "#top"],
   ["About", "#about"],
@@ -45,9 +48,12 @@ const nav = [
     <!-- Hero: portrait as the centrepiece, giant name behind it -->
     <section class="hero">
       <div class="hero-stage">
+        <svg class="hero-ecg" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+          <path pathLength="1" d="M0 70 H330 l14 -8 l12 8 h22 l9 12 l15 -72 l15 90 l11 -30 h12 l22 -14 l22 14 H1010 l14 -8 l12 8 h22 l9 12 l15 -72 l15 90 l11 -30 h12 l22 -14 l22 14 H1440" />
+        </svg>
         <h1 class="hero-name" aria-label={site.name}>
-          <span class="l1" aria-hidden="true"><span>{site.firstLine}</span></span>
-          <span class="l2" aria-hidden="true"><span>{site.secondLine}</span></span>
+          <span class="l1" aria-hidden="true">{letters(site.firstLine, 0).map((c) => <span class="ch" style={`--i:${c.i}`}>{c.ch}</span>)}</span>
+          <span class="l2" aria-hidden="true">{letters(site.secondLine, site.firstLine.length).map((c) => <span class="ch" style={`--i:${c.i}`}>{c.ch}</span>)}</span>
         </h1>
         <div class="hero-portrait">
           <Image
@@ -70,9 +76,9 @@ const nav = [
           </div>
         </div>
         <dl class="hero-facts">
-          <div><dt>Experience</dt><dd>{site.yearsExperience} years</dd></div>
-          <div><dt>Qualifications</dt><dd>{site.qualifications}</dd></div>
-          <div><dt>Based in</dt><dd>{site.location}</dd></div>
+          <div style="--d:0"><dt>Experience</dt><dd>{site.yearsExperience} years</dd></div>
+          <div style="--d:1"><dt>Qualifications</dt><dd>{site.qualifications}</dd></div>
+          <div style="--d:2"><dt>Based in</dt><dd>{site.location}</dd></div>
         </dl>
       </div>
     </section>
@@ -281,6 +287,19 @@ const nav = [
         if (!ticking) { ticking = true; requestAnimationFrame(update); }
       }, { passive: true });
       update();
+
+      // Mouse depth (desktop only): layers shift in opposite directions
+      if (window.matchMedia("(pointer: fine)").matches) {
+        hero.addEventListener("pointermove", (e) => {
+          const r = hero.getBoundingClientRect();
+          hero.style.setProperty("--mx", (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
+          hero.style.setProperty("--my", (((e.clientY - r.top) / r.height) * 2 - 1).toFixed(3));
+        });
+        hero.addEventListener("pointerleave", () => {
+          hero.style.setProperty("--mx", "0");
+          hero.style.setProperty("--my", "0");
+        });
+      }
     }
 
     // Fade-in on scroll
