@@ -1,32 +1,57 @@
+/* Palette: navy and gold */
 :root {
-  --cream: #faf6f0;
-  --sand: #f3ebe0;
+  --cream: #faf8f3;      /* page background */
+  --sand: #f2eee4;       /* alternate section background */
   --card: #ffffff;
-  --ink: #3a1d12;
-  --text: #4d4540;
-  --muted: #7a706a;
-  --clay: #b5502e;
-  --clay-dark: #8f3c1f;
-  --peach: #f6d3c3;
-  --line: #e8ddd0;
+  --ink: #1b2b44;        /* headings */
+  --text: #4a4a45;
+  --muted: #6e6c64;
+  --clay: #1b2b44;       /* primary buttons, links */
+  --clay-dark: #2a3f61;  /* button hover */
+  --on-accent: #ffffff;  /* text on primary buttons */
+  --gold: #8a6d24;       /* small highlights: labels, numbers, dots */
+  --peach: #eadfc4;      /* soft gold fills */
+  --avatar: #6b5420;
+  --line: #e6e0d2;
   --radius: 16px;
   --max: 1080px;
   --serif: "Fraunces", Georgia, serif;
   --sans: "Inter", system-ui, -apple-system, sans-serif;
 }
 
+/* Dark theme: used when the visitor's device is in dark mode (unless they chose
+   light with the toggle), or when they choose dark with the toggle. */
+:root[data-theme="dark"] {
+  --cream: #0e1420;
+  --sand: #131b2a;
+  --card: #182233;
+  --ink: #f2eee3;
+  --text: #d3d0c6;
+  --muted: #a9a69c;
+  --clay: #d9b45e;
+  --clay-dark: #e6c679;
+  --on-accent: #1a1405;
+  --gold: #d9b45e;
+  --peach: #3a3020;
+  --avatar: #ebd29a;
+  --line: #263044;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
-    --cream: #1c1613;
-    --sand: #241c18;
-    --card: #2b221d;
-    --ink: #fbe9df;
-    --text: #e2d6cf;
-    --muted: #b3a59c;
-    --clay: #e0825f;
-    --clay-dark: #f09a79;
-    --peach: #5a2d1d;
-    --line: #3a2e28;
+  :root:not([data-theme="light"]) {
+    --cream: #0e1420;
+    --sand: #131b2a;
+    --card: #182233;
+    --ink: #f2eee3;
+    --text: #d3d0c6;
+    --muted: #a9a69c;
+    --clay: #d9b45e;
+    --clay-dark: #e6c679;
+    --on-accent: #1a1405;
+    --gold: #d9b45e;
+    --peach: #3a3020;
+    --avatar: #ebd29a;
+    --line: #263044;
   }
 }
 
@@ -50,14 +75,14 @@ a { color: var(--clay); }
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
 section { padding: 80px 0; }
 .alt { background: var(--sand); }
-.eyebrow { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--clay); font-weight: 500; margin-bottom: 0.6em; }
+.eyebrow { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 0.6em; }
 .lead { font-size: 1.15rem; color: var(--muted); max-width: 620px; }
 
 .btn {
   display: inline-block; padding: 12px 24px; border-radius: 999px; font-weight: 500;
   text-decoration: none; transition: background 0.2s, transform 0.2s; border: 1.5px solid var(--clay);
 }
-.btn-primary { background: var(--clay); color: #fff; }
+.btn-primary { background: var(--clay); color: var(--on-accent); }
 .btn-primary:hover { background: var(--clay-dark); border-color: var(--clay-dark); transform: translateY(-1px); }
 .btn-ghost { color: var(--clay); }
 .btn-ghost:hover { background: var(--peach); }
@@ -69,14 +94,25 @@ section { padding: 80px 0; }
 .nav { display: flex; gap: 28px; }
 .nav a { color: var(--text); text-decoration: none; font-size: 0.95rem; }
 .nav a:hover { color: var(--clay); }
+.header-actions { display: flex; align-items: center; gap: 8px; }
+.theme-btn {
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--card);
+  color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+  margin-left: 20px; transition: border-color 0.2s;
+}
+.theme-btn:hover { border-color: var(--gold); }
+.theme-btn svg { width: 18px; height: 18px; }
+.theme-btn .moon { display: none; }
+:root[data-theme="dark"] .theme-btn .sun { display: none; }
+:root[data-theme="dark"] .theme-btn .moon { display: block; }
 .menu-btn { display: none; background: none; border: 0; font-size: 1.6rem; color: var(--ink); cursor: pointer; }
 
 /* Hero */
 .hero { padding: 90px 0 70px; text-align: center; }
 .avatar {
-  width: 150px; height: 150px; border-radius: 50%; background: var(--peach); color: var(--clay-dark);
+  width: 150px; height: 150px; border-radius: 50%; background: var(--peach); color: var(--avatar);
   display: flex; align-items: center; justify-content: center; margin: 0 auto 28px;
-  font-family: var(--serif); font-size: 3rem; border: 6px solid var(--card); box-shadow: 0 10px 30px rgba(58, 29, 18, 0.12);
+  font-family: var(--serif); font-size: 3rem; border: 6px solid var(--card); box-shadow: 0 10px 30px rgba(27, 43, 68, 0.14);
   overflow: hidden;
 }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -87,7 +123,7 @@ section { padding: 80px 0; }
 /* Cards */
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 36px; }
 .card { background: var(--card); border-radius: var(--radius); padding: 28px; border: 1px solid var(--line); }
-.card .num { font-family: var(--serif); color: var(--clay); font-size: 1.4rem; margin-bottom: 8px; display: block; }
+.card .num { font-family: var(--serif); color: var(--gold); font-size: 1.4rem; margin-bottom: 8px; display: block; }
 .card p { margin: 0; color: var(--muted); }
 
 .chips { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
@@ -96,8 +132,8 @@ section { padding: 80px 0; }
 /* Experience */
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 36px; }
 .timeline { list-style: none; padding: 0; margin: 0; }
-.timeline li { padding: 0 0 22px 22px; border-left: 2px solid var(--peach); position: relative; }
-.timeline li::before { content: ""; position: absolute; left: -7px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--clay); }
+.timeline li { padding: 0 0 22px 22px; border-left: 2px solid var(--line); position: relative; }
+.timeline li::before { content: ""; position: absolute; left: -7px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); }
 .timeline strong { color: var(--ink); display: block; }
 .timeline span { color: var(--muted); font-size: 0.95rem; }
 .cred-list { margin: 28px 0 0; padding-left: 20px; color: var(--muted); }
