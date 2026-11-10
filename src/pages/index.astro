@@ -42,40 +42,38 @@ const nav = [
   </header>
 
   <main id="top">
-    <!-- Hero -->
+    <!-- Hero: portrait as the centrepiece, giant name behind it -->
     <section class="hero">
-      <div class="wrap">
-        <div class="hero-grid">
-          <div class="hero-text">
-            <p class="eyebrow">{site.role}</p>
-            <h1><span>{site.firstLine}</span><span>{site.secondLine}</span></h1>
-            <p class="hero-line">{site.heroLine}</p>
-            <div class="hero-actions">
-              <a class="btn btn-primary" href={site.bookingUrl}>Book a consultation <span class="arrow">→</span></a>
-              <a class="btn btn-outline" href="#expertise">View expertise <span class="arrow">→</span></a>
-            </div>
-          </div>
-          <div class="hero-photo">
-            <div class="portrait">
-            <span class="halo" aria-hidden="true"></span>
-            <Image
-              src={heroImg}
-              alt={`Portrait of ${site.name}`}
-              widths={[480, 640, 803]}
-              sizes="(max-width: 760px) 90vw, 460px"
-              format="webp"
-              quality={95}
-              loading="eager"
-              fetchpriority="high"
-            />
-            </div>
+      <div class="hero-stage">
+        <h1 class="hero-name" aria-label={site.name}>
+          <span class="l1" aria-hidden="true"><span>{site.firstLine}</span></span>
+          <span class="l2" aria-hidden="true"><span>{site.secondLine}</span></span>
+        </h1>
+        <div class="hero-portrait">
+          <Image
+            src={heroImg}
+            alt={`Portrait of ${site.name}`}
+            widths={[480, 640, 803]}
+            sizes="(max-width: 760px) 92vw, 46vw"
+            format="webp"
+            quality={95}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="hero-intro">
+          <p class="eyebrow">{site.role}</p>
+          <p class="hero-line">{site.heroLine}</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href={site.bookingUrl}>Book a consultation <span class="arrow">→</span></a>
+            <a class="btn btn-outline" href="#expertise">View expertise <span class="arrow">→</span></a>
           </div>
         </div>
-        <div class="hero-meta">
-          <div><strong>{site.yearsExperience}</strong><span>Years of experience</span></div>
-          <div><strong>{site.qualifications}</strong><span>Qualifications</span></div>
-          <div><strong>{site.location}</strong><span>Location</span></div>
-        </div>
+        <dl class="hero-facts">
+          <div><dt>Experience</dt><dd>{site.yearsExperience} years</dd></div>
+          <div><dt>Qualifications</dt><dd>{site.qualifications}</dd></div>
+          <div><dt>Based in</dt><dd>{site.location}</dd></div>
+        </dl>
       </div>
     </section>
 
@@ -268,6 +266,22 @@ const nav = [
     };
     window.addEventListener("scroll", setActive, { passive: true });
     setActive();
+
+    // Hero depth: name and portrait drift at different speeds while scrolling
+    const hero = document.querySelector<HTMLElement>(".hero");
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (hero && !calm.matches) {
+      let ticking = false;
+      const update = () => {
+        const y = Math.min(window.scrollY, window.innerHeight);
+        hero.style.setProperty("--sy", String(y));
+        ticking = false;
+      };
+      window.addEventListener("scroll", () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      update();
+    }
 
     // Fade-in on scroll
     const revealObs = new IntersectionObserver(
