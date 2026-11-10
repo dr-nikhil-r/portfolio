@@ -29,6 +29,11 @@ const {
         try { saved = localStorage.getItem("theme"); } catch (e) {}
         var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         document.documentElement.setAttribute("data-theme", saved || (dark ? "dark" : "light"));
+        // Always open at the top (so the hero intro is seen), unless the link targets a section.
+        if ("scrollRestoration" in history && !location.hash) {
+          history.scrollRestoration = "manual";
+          window.scrollTo(0, 0);
+        }
       })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
