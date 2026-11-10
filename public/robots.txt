@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://drnikhilreddy.pages.dev/sitemap.txt
+Sitemap: https://thedrnikhil.pages.dev/sitemap.txt
