@@ -120,21 +120,18 @@ const nav = [
           <p class="eyebrow">How I work</p>
           <h2>Care approach</h2>
         </div>
-        <div class="approach-grid">
-          <div class="approach-photo reveal">
-            {site.approachPhoto
-              ? <img src={site.approachPhoto} alt={`${site.name} at work`} />
-              : <div class="photo-placeholder"><strong>{site.initials}</strong>Second photo here</div>}
+        {site.approachPhoto ? (
+          <div class="approach-grid">
+            <div class="approach-photo reveal"><img src={site.approachPhoto} alt={`${site.name} at work`} /></div>
+            <div class="stack">
+              {approach.map((a) => <div class="stack-card reveal"><h3>{a.title}</h3><p>{a.text}</p></div>)}
+            </div>
           </div>
-          <div class="stack">
-            {approach.map((a) => (
-              <div class="stack-card reveal">
-                <h3>{a.title}</h3>
-                <p>{a.text}</p>
-              </div>
-            ))}
+        ) : (
+          <div class="stack stack-2">
+            {approach.map((a) => <div class="stack-card reveal"><h3>{a.title}</h3><p>{a.text}</p></div>)}
           </div>
-        </div>
+        )}
       </div>
     </section>
 
@@ -218,14 +215,19 @@ const nav = [
               <div><small>HOURS</small><p>{p.hours}</p></div>
             ))}
             <div><small>EMAIL</small><p><a href={`mailto:${site.email}`}>{site.email}</a></p></div>
-            <div><small>PHONE</small><p>{site.phone}</p></div>
+            {site.phone && <div><small>PHONE</small><p><a href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a></p></div>}
+            {site.socials.map((s) => (
+              <div><small>{s.label.toUpperCase()}</small><p><a href={s.url} target="_blank" rel="noopener">View profile ↗</a></p></div>
+            ))}
+            <div><small>BASED IN</small><p>{site.location}</p></div>
           </div>
-          <form action={formAction} method="POST" class="reveal">
+          <form action={formAction} method="POST" class="reveal" id="contact-form" data-email={site.email} data-formspree={site.formspreeId ? "1" : ""}>
             <label>NAME<input name="name" required autocomplete="name" /></label>
             <label>EMAIL<input type="email" name="email" required autocomplete="email" /></label>
             <label>MESSAGE<textarea name="message" rows="4" required></textarea></label>
             <p class="note">Please don't share personal medical details here. This form isn't for emergencies: if you need urgent help, call 112 or go to your nearest emergency department.</p>
             <button type="submit" class="btn btn-primary">Send message <span class="arrow">→</span></button>
+            <p class="note form-status" id="form-status" role="status" hidden></p>
           </form>
         </div>
       </div>
@@ -237,7 +239,7 @@ const nav = [
       <div class="foot-top">
         <a href="#top" class="brand" aria-label={`${site.name}, home`}><span class="mono">{site.initials}</span></a>
         <div class="foot-links">
-          {site.socials.map((s) => <a href={s.url}>{s.label}</a>)}
+          {site.socials.map((s) => <a href={s.url} target="_blank" rel="noopener">{s.label}</a>)}
           <a href={`mailto:${site.email}`}>Email</a>
         </div>
       </div>
@@ -318,6 +320,33 @@ const nav = [
         });
       }
     }
+
+    // Contact form: without a Formspree ID, open the visitor's email app with the message filled in.
+    const form = document.querySelector<HTMLFormElement>("#contact-form");
+    const status = document.getElementById("form-status");
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = String(data.get("name") || "").trim();
+      const from = String(data.get("email") || "").trim();
+      const message = String(data.get("message") || "").trim();
+      const show = (text: string) => { if (status) { status.hidden = false; status.textContent = text; } };
+      if (form.dataset.formspree) {
+        try {
+          const res = await fetch(form.action, { method: "POST", body: data, headers: { Accept: "application/json" } });
+          if (!res.ok) throw new Error();
+          form.reset();
+          show("Thank you, your message has been sent. I'll reply as soon as I can.");
+        } catch {
+          show(`Sorry, that didn't send. Please email ${form.dataset.email} directly.`);
+        }
+        return;
+      }
+      const subject = `Website enquiry from ${name}`;
+      const body = `${message}\n\n${name}\n${from}`;
+      window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      show(`Your email app should open with this message ready to send. If it doesn't, please email ${form.dataset.email} directly.`);
+    });
 
     // Fade-in on scroll
     const revealObs = new IntersectionObserver(

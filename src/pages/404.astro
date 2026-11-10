@@ -1,0 +1,14 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+
+<Base title={`Page not found | ${site.name}`} description="This page doesn't exist.">
+  <main class="notfound">
+    <a href="/" class="brand" aria-label={`${site.name}, home`}><span class="mono">{site.initials}</span></a>
+    <p class="eyebrow">404</p>
+    <h1>This page doesn't exist</h1>
+    <p>The link may be broken, or the page may have moved.</p>
+    <a class="btn btn-primary" href="/">Back to home <span class="arrow">→</span></a>
+  </main>
+</Base>

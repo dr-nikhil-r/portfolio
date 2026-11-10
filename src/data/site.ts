@@ -23,7 +23,7 @@ export const site = {
   about:
     "Hi, I'm Dr. Nikhil Reddy. I was drawn to medicine by a simple belief: being unwell is frightening, and a good doctor can make it a little less so. I try to listen before I speak, explain things honestly and in plain words, and remember that every patient has a life, a family and worries that go far beyond the hospital bed. As I begin my postgraduate training, I'm still learning every day, and deeply grateful to the patients and teachers who are shaping the doctor I hope to become.",
   email: "2001nikhilraghunath@gmail.com",
-  phone: "+91 63662 22501",
+  phone: "", // left blank so it isn't shown on the public site
   // Hero photo: replace src/assets/hero.png (transparent background, waist-up).
   // Approach photo: put an image in the "public" folder and set its name here, e.g. "/at-work.jpg".
   approachPhoto: "",
@@ -38,7 +38,6 @@ export const site = {
     "I'm not seeing patients or taking appointments at the moment, as I'm beginning my postgraduate (MD/MS) training. For professional, academic or collaboration enquiries, I'd be glad to hear from you.",
   socials: [
     { label: "LinkedIn", url: "https://www.linkedin.com/in/nikhil-reddy-93507b263" },
-    { label: "Google Scholar", url: "#" },
   ],
 };
 
@@ -88,20 +87,14 @@ export const education = [
 export const credentials = [
   "Basic Life Support (BLS)",
   "Languages: English, Kannada, Telugu and Hindi",
-  "[Medical Council registration no. XXXXX]",
 ];
 
 // Research, talks, awards. Leave the list empty ([]) to hide the section.
-export const research = [
-  { title: "[Title of research paper]", venue: "[Journal name]", year: "[2025]", url: "#" },
-  { title: "[Conference talk or CME]", venue: "[Event name, City]", year: "[2024]", url: "#" },
-  { title: "[Award or recognition]", venue: "[Awarding body]", year: "[2023]", url: "#" },
+export const research: { title: string; venue: string; year: string; url: string }[] = [
+  // Example: { title: "Paper title", venue: "Journal name", year: "2026", url: "https://..." },
 ];
 
-export const practices = [
-  {
-    name: "[Hospital or clinic name]",
-    address: "[Street, Area, City – PIN]",
-    hours: "[Mon – Sat, 10 am – 2 pm]",
-  },
+// Clinic details, shown in Contact only when acceptingAppointments is true.
+export const practices: { name: string; address: string; hours: string }[] = [
+  // Example: { name: "Clinic name", address: "Street, Area, City – PIN", hours: "Mon – Sat, 10 am – 2 pm" },
 ];
