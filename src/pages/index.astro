@@ -1,0 +1,165 @@
+---
+import Base from "../layouts/Base.astro";
+import {
+  site, approach, conditions, experience, education, credentials, practices,
+} from "../data/site";
+
+const formAction = site.formspreeId
+  ? `https://formspree.io/f/${site.formspreeId}`
+  : `mailto:${site.email}`;
+const year = new Date().getFullYear();
+---
+
+<Base>
+  <header class="site-header">
+    <div class="wrap">
+      <a href="#top" class="brand">{site.name}</a>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" id="menu-btn">☰</button>
+      <nav class="nav" id="nav">
+        <a href="#about">About</a>
+        <a href="#care">Care</a>
+        <a href="#experience">Experience</a>
+        <a href="#visit">Visit</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <div class="avatar" aria-hidden="true">
+          <!-- Add your photo as public/photo.jpg and replace the initials with:
+               <img src="/photo.jpg" alt="" /> -->
+          {site.initials}
+        </div>
+        <p class="eyebrow">{site.specialty} · {site.location}</p>
+        <h1>Hello, I'm {site.name}</h1>
+        <p class="lead">{site.intro}</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href={site.bookingUrl}>Book a consultation</a>
+          <a class="btn btn-ghost" href="#about">Learn more about me</a>
+        </div>
+        <p class="creds">{site.qualifications}</p>
+      </div>
+    </section>
+
+    <section id="about" class="alt">
+      <div class="wrap">
+        <p class="eyebrow">My approach</p>
+        <h2>{site.tagline}</h2>
+        <p class="lead">
+          Visiting a doctor can feel overwhelming. My aim is to make every appointment calm,
+          unhurried and clear, so you feel heard and confident about the next step.
+        </p>
+        <div class="grid-3">
+          {approach.map((a, i) => (
+            <div class="card">
+              <span class="num">0{i + 1}</span>
+              <h3>{a.title}</h3>
+              <p>{a.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="care">
+      <div class="wrap">
+        <p class="eyebrow">How I can help</p>
+        <h2>Conditions and services</h2>
+        <p class="lead">Some of the areas I see patients for. If you're unsure whether I'm the right doctor, get in touch and I'll point you in the right direction.</p>
+        <div class="chips">
+          {conditions.map((c) => <span class="chip">{c}</span>)}
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="alt">
+      <div class="wrap">
+        <p class="eyebrow">Background</p>
+        <h2>Training and experience</h2>
+        <div class="two-col">
+          <div>
+            <h3>Experience</h3>
+            <ul class="timeline">
+              {experience.map((e) => (
+                <li><strong>{e.role}</strong><span>{e.place} · {e.years}</span></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Education</h3>
+            <ul class="timeline">
+              {education.map((e) => (
+                <li><strong>{e.degree}</strong><span>{e.place} · {e.years}</span></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <ul class="cred-list">
+          {credentials.map((c) => <li>{c}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section id="visit">
+      <div class="wrap">
+        <p class="eyebrow">Where I practise</p>
+        <h2>Visit me</h2>
+        <div class="grid-3">
+          {practices.map((p) => (
+            <div class="card practice">
+              <strong>{p.name}</strong>
+              <p>{p.address}</p>
+              <p>{p.hours}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="alt">
+      <div class="wrap">
+        <p class="eyebrow">Get in touch</p>
+        <h2>Let's talk</h2>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <p class="lead">For appointments, referrals or professional enquiries, send a message and I'll respond as soon as I can.</p>
+            <p><strong>Email:</strong> <a href={`mailto:${site.email}`}>{site.email}</a></p>
+            <p><strong>Phone:</strong> {site.phone}</p>
+          </div>
+          <form action={formAction} method="POST">
+            <label>Your name<input name="name" required autocomplete="name" /></label>
+            <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+            <label>Message<textarea name="message" rows="5" required></textarea></label>
+            <p class="note">Please don't include personal medical details here. This form isn't for emergencies: if you need urgent help, call 112 or go to your nearest emergency department.</p>
+            <button type="submit" class="btn btn-primary">Send message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© {year} {site.name}. All rights reserved.</span>
+      <span>The information on this website is for general information only and isn't a substitute for professional medical advice, diagnosis or treatment.</span>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById("menu-btn");
+    const nav = document.getElementById("nav");
+    btn?.addEventListener("click", () => {
+      const open = nav?.classList.toggle("open");
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    nav?.querySelectorAll("a").forEach((a) =>
+      a.addEventListener("click", () => {
+        nav.classList.remove("open");
+        btn?.setAttribute("aria-expanded", "false");
+      })
+    );
+  </script>
+</Base>
