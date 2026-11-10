@@ -8,7 +8,7 @@ interface Props {
 }
 const {
   title = `${site.name} | ${site.specialty}`,
-  description = `${site.name}, ${site.specialty} in ${site.location}. ${site.tagline}`,
+  description = `${site.name}, ${site.specialty} in ${site.location}. ${site.heroLine}`,
 } = Astro.props;
 ---
 
@@ -34,7 +34,7 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,800;1,400&family=Inter:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
   </head>
