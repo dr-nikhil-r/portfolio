@@ -5,7 +5,7 @@ export const site = {
   name: "Dr. Nikhil Reddy",
   firstLine: "Dr. Nikhil", // big hero name, line 1
   secondLine: "Reddy", //      big hero name, line 2
-  brand: "DR. NIKHIL", //      top-left logo text
+  // Logo: the header and footer show the "initials" monogram below.
   initials: "NR",
   role: "[Specialty] Physician", // small spaced-out label above the name
   qualifications: "[MBBS, MD]",

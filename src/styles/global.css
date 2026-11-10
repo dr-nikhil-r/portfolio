@@ -91,7 +91,14 @@ section { padding: 110px 0; }
 /* Header */
 .site-header { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 24px; }
-.brand { font-family: var(--display); font-weight: 800; font-size: 1.35rem; letter-spacing: -0.03em; color: var(--ink); text-decoration: none; }
+.brand { font-family: var(--display); color: var(--ink); text-decoration: none; display: inline-flex; }
+.brand .mono {
+  display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+  border: 1.5px solid var(--ink); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em; position: relative;
+  transition: background 0.25s, color 0.25s;
+}
+.brand .mono::after { content: ""; position: absolute; right: -5px; bottom: -5px; width: 7px; height: 7px; background: var(--gold); }
+.brand:hover .mono { background: var(--ink); color: var(--bg); }
 .nav { display: flex; gap: 30px; margin-right: auto; margin-left: 48px; }
 .nav a { color: var(--muted); text-decoration: none; font-size: 0.92rem; transition: color 0.2s; }
 .nav a:hover, .nav a.active { color: var(--ink); }
@@ -115,8 +122,8 @@ section { padding: 110px 0; }
 }
 .hero-name {
   position: absolute; z-index: 0; inset: 3% 24px auto; margin: 0;
-  font-weight: 800; letter-spacing: -0.06em; line-height: 0.82;
-  font-size: clamp(5rem, 15.5vw, 15rem); color: var(--ink); user-select: none;
+  font-weight: 700; letter-spacing: -0.05em; line-height: 0.86;
+  font-size: clamp(4.5rem, 12.6vw, 12.5rem); color: var(--ink); user-select: none;
 }
 .hero-name span { display: block; white-space: nowrap; }
 .hero-name .l2 { text-align: right; }
@@ -154,7 +161,7 @@ section { padding: 110px 0; }
 
 /* ECG trace behind the portrait */
 .hero-ecg {
-  position: absolute; z-index: 0; left: 0; width: 100%; top: 56%; height: 90px; overflow: visible; pointer-events: none;
+  position: absolute; z-index: 0; left: 0; width: 100%; top: 47%; height: 90px; overflow: hidden; pointer-events: none;
 }
 .hero-ecg path {
   fill: none; stroke: var(--gold); stroke-width: 1.6; vector-effect: non-scaling-stroke;
@@ -167,7 +174,8 @@ section { padding: 110px 0; }
     animation-delay: calc(0.15s + var(--i) * 0.045s);
   }
   .hero-portrait img { animation: curtain 1.7s cubic-bezier(0.76, 0, 0.24, 1) 0.55s both; }
-  .hero-ecg path { stroke-dasharray: 1; animation: ecg-draw 2.4s cubic-bezier(0.45, 0, 0.2, 1) 0.9s both; }
+  .hero-ecg { animation: ecg-wipe 1.8s cubic-bezier(0.45, 0, 0.2, 1) 0.9s both; }
+  .ecg-track { animation: ecg-scroll 7s linear infinite; }
   .hero-intro { animation: slide-in-left 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 1.5s both; }
   .hero-facts > div { animation: slide-in-right 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(1.65s + var(--d) * 0.12s); }
 }
@@ -180,7 +188,9 @@ section { padding: 110px 0; }
   60% { clip-path: inset(-40% -40% 0 -40%); }
   to { clip-path: inset(-40% -40% -40% -40%); transform: none; }
 }
-@keyframes ecg-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes ecg-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+/* Track is two identical 1440-wide halves; shifting by one half loops seamlessly, moving right */
+@keyframes ecg-scroll { from { transform: translateX(-1440px); } to { transform: translateX(0); } }
 @keyframes slide-in-left { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: none; } }
 @keyframes slide-in-right { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
 
